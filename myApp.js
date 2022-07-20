@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 const MONGO_URI = process.env['MONGO_URI'].toString()
 
-console.log(MONGO_URI+"\n");
+// console.log(MONGO_URI+"\n");
 
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -20,13 +20,32 @@ let personSchema = mongoose.Schema({
   }
 })
 
-
-
 let Person = mongoose.model('Person', personSchema);
 
+var fredFrederson = new Person(
+  {name: "Fred Frederson",
+   age: 23});
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  fredFrederson.save(function(err, data) {
+    if (err) return console.error(err);
+    console.log("createAndSavePerson:", data.name, data._id);
+    done(null, data)
+    
+  })
 };
+
+var bunchOfPeople = [
+  {name: 'mikkel',
+   age: 33,
+   favoriteFoods: ['herring', 'rye bread']},
+  {name: 'hans',
+   age: 12,
+  favoriteFoods: ['marzapan', 'strudel']},
+  {name: 'john',
+  age: 40,
+  favoriteFoods: ['pizza', 'strudel']}
+];
+
 
 const createManyPeople = (arrayOfPeople, done) => {
   done(null /*, data*/);
