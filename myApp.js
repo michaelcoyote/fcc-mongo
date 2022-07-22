@@ -47,8 +47,12 @@ var bunchOfPeople = [
 ];
 
 
-const createManyPeople = (arrayOfPeople, done) => {
-  done(null /*, data*/);
+const createManyPeople = (bunchOfPeople, done) => {
+  Person.create(bunchOfPeople, function(err, data) {
+    if (err) return console.error(err);
+    console.log("Create many people", data.name, data._id);
+    done(null, data);
+  })
 };
 
 const findPeopleByName = (personName, done) => {
