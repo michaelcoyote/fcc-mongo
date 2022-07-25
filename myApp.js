@@ -48,15 +48,21 @@ var bunchOfPeople = [
 
 
 const createManyPeople = (bunchOfPeople, done) => {
-  Person.create(bunchOfPeople, function(err, data) {
+  Person.create(bunchOfPeople, 
+                function(err, data) {
     if (err) return console.error(err);
     console.log("Create many people", data.name, data._id);
     done(null, data);
   })
 };
 
+
 const findPeopleByName = (personName, done) => {
-  done(null /*, data*/);
+  Person.find({name: personName}, function(err, data) {
+    if (err) return console.error(err);
+    console.log("Find peoples", data.name, data._id);
+    done(null, data);
+  });
 };
 
 const findOneByFood = (food, done) => {
