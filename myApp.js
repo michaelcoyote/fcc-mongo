@@ -48,8 +48,7 @@ var bunchOfPeople = [
 
 
 const createManyPeople = (bunchOfPeople, done) => {
-  Person.create(bunchOfPeople, 
-                function(err, data) {
+  Person.create(bunchOfPeople, function(err, data) {
     if (err) return console.error(err);
     console.log("Create many people", data.name, data._id);
     done(null, data);
@@ -87,14 +86,26 @@ const findPersonById = (personId, done) => {
 
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
-
-  done(null /*, data*/);
+  Person.findById({ _id: personId }, function(err, data) {
+    if (err) return console.error(err);
+    console.log("Found _id to edit", data.name, data._id);
+    data.favoriteFoods.push(foodToAdd);
+    data.save((err, update) => {
+      if (err) return console.err(err);
+      done(null, update);
+    });
+  });
 };
 
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
-
-  done(null /*, data*/);
+  Person.findOneAndUpdate({ name: personName },
+                          { age: ageToSet },
+                          { new: true },
+                          (err, update) => {
+    if (err) return console.error(err);
+    done(null, update);
+  });
 };
 
 const removeById = (personId, done) => {
