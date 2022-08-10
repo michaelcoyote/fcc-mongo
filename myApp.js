@@ -109,7 +109,16 @@ const findAndUpdate = (personName, done) => {
 };
 
 const removeById = (personId, done) => {
-  done(null /*, data*/);
+  // findByIdAndRemove and findOneAndRemove pass the removed
+  // document to the db. As usual, use the function argument
+  // personId as the search key.
+  Person.findByIdAndRemove(personId,
+                           (err, data) => {
+                             if (err) return console.error(err);
+                             console.log("Found _id to remove:",
+                                         data.name);
+                             done(null, data);
+                           });
 };
 
 const removeManyPeople = (done) => {
